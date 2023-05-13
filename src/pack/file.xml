@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+    <ecole type="package">
+        <Student type="Class" visibility="public">
+            <attribut1 type="int" visibility="public" typemembre="attribute">42</attribut1>
+            <attribut2 visibility="private" typemembre="attribute">Hello, world!</attribut2>
+            <attribut3 type="boolean" visibility="protected" typemembre="attribute">true</attribut3>
+            <addStudent visibility="public" typemembre="method">
+                <parameter type="Student" nom="std"/>
+            </addStudent>
+            <ReturnValeur visibility="public" typemembre="method" typeRetour="int">
+                <parameter type="int" nom="val"/>
+                <parameter type="String" nom="nom"/>
+            </ReturnValeur>
+            <constructeur type="both">
+                <attribut1 initialize="attribut1" type="int"></attribut1>
+                <attribut2 initialize="attribut2"></attribut2>
+                <attribut3 initialize="attribut3" type="boolean"></attribut3>
+            </constructeur>
+        </Student>
+        <Prof type="Class" visibility="package">
+            <function visibility="public" typemembre="method">
+                <parameter type="int" nom="std"/>
+            </function>
+            <constructeur type="default">
+            </constructeur>
+        </Prof>
+        <ProfTP type="Class" visibility="public">
+            <parent>ecole.Prof</parent>
+            <functionProfTP visibility="public" typemembre="method" typeRetour="String">
+                <parameter type="int" nom="std"/>
+            </functionProfTP>
+        </ProfTP>
+        <Inter type="Interface" visibility="public">
+            <functionInter visibility="public" typemembre="method">
+                <parameter type="String" nom="var"/>
+            </functionInter>
+        </Inter>
+        <InterClass type="Class" visibility="public">
+            <implements>ecole.Inter</implements>
+            <function visibility="public" typemembre="method">
+                <parameter type="int" nom="std"/>
+            </function>
+        </InterClass>
+        <packagefils type="package">
+            <classFille type="Class" visibility="package">
+                <parent>ecole.Student</parent>
+                <ID type="int" visibility="public" typemembre="attribute">25</ID>
+                <IDFunction visibility="public" typemembre="method">
+                    <parameter type="Student" nom="std"/>
+                </IDFunction>
+            </classFille>
+            <packagefilsfils type="package">
+                <classFilleFille type="Class" visibility="public">
+                    <parent>ecole.Student</parent>
+                    <vaar type="int" visibility="public" typemembre="attribute">25</vaar>
+                    <vaarFunction typeRetour="float" visibility="public" typemembre="method">
+                        <parameter type="int" nom="std"/>
+                    </vaarFunction>
+                    <constructeur type="both">
+                        <vaar initialize="vaar" type="int"></vaar>
+                    </constructeur>
+                </classFilleFille>
+            </packagefilsfils>
+        </packagefils>
+        <packagefilssss type="package">
+            <classFilledeu type="Class" visibility="public">
+                <implements>ecole.Inter</implements>
+                <attribuuut visibility="public" typemembre="attribute">Hiiii</attribuuut>
+                <fuuuunction visibility="public" typemembre="method">
+                    <parameter type="String" nom="std"/>
+                </fuuuunction>
+            </classFilledeu>
+        </packagefilssss>
+    </ecole>
+    <salle type="package">
+
+    </salle>
+</module>
+
+
+<!--<Ecole>
+    <Student type="Class" visibility="public">
+        <attribut1 type="int" visibility="public" typemembre="attribute">42</attribut1>
+        <attribut2 visibility="private" typemembre="attribute">Hello, world!</attribut2>
+        <attribut3 type="boolean" visibility="protected" typemembre="attribute">true</attribut3>
+        <addStudent visibility="public" typemembre="method">
+            <parameter type="Student" nom="std"/>
+        </addStudent>
+    </Student>
+</Ecole>-->
+

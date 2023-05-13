@@ -1,0 +1,204 @@
+<Module id="1">
+    <Name>model project</Name>
+    <Packages>
+        <Package id="1">
+            <Name>eerr</Name>
+            <Classes>
+                <Class id="1" Visibility="public">
+                    <Name>Account</Name>
+                    <visibility>public</visibility>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>eveer</Name>
+                            <Type>int</Type>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                        <method id="2" visibility="private">
+                            <Name>methoode</Name>
+                            <Type>String</Type>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                    <Attributes>
+                        <Attribute id="1" visibility="public">
+                            <Name>salaire</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                        <Attribute id="2" visibility="public">
+                            <Name>brrr</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                        <Attribute id="3" visibility="public">
+                            <Name>br</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                    </Attributes>
+                </Class>
+                <Class id="2" Visibility="public">
+                    <Name>Classe1</Name>
+                    <Parent/>
+                    <visibility>protected</visibility>
+                </Class>
+                <Class id="3" Visibility="public">
+                    <Name>Classe2</Name>
+                    <Parent/>
+                    <visibility>private</visibility>
+                </Class>
+                <Class id="4" Visibility="public">
+                    <Name>Classe3</Name>
+                    <Parent/>
+                    <visibility>package</visibility>
+                </Class>
+            </Classes>
+            <Interfaces>
+                <Interface id="1" Visibility="public">
+                    <Name>AccountInterface</Name>
+                    <Parent/>
+                    <visibility>public</visibility>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>eveer</Name>
+                            <Type>int</Type>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                </Interface>
+            </Interfaces>
+            <Packages/>
+        </Package>
+        <Package id="2">
+            <Name>packaaage</Name>
+            <Classes>
+                <Class id="1" Visibility="public">
+                    <Name>User</Name>
+                   <Parent>eerr.Account</Parent>
+                    <Implements>
+                        <Implement>eerr.AccountInterface</Implement>
+                        <Implement>packaaage.sousPackage.ComputerInterface</Implement>
+                        <Implement>otherpackage.NewInterface</Implement>
+                    </Implements>
+                    <visibility>public</visibility>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>addUser</Name>
+                            <Type>void</Type>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+
+                        </method>
+                    </Methods>
+                </Class>
+            </Classes>
+            <Packages>
+                <Package id="4">
+                    <Name>sousPackage</Name>
+                    <Classes>
+                        <Class id="1" Visibility="public">
+                            <Name>Computer</Name>
+                            <Parent>eerr.Account</Parent>
+                            <visibility>public</visibility>
+                            <Attributes>
+                                <Attribute id="1" visibility="public">
+                                    <Name>salaire</Name>
+                                    <Type>String</Type>
+                                </Attribute>
+                            </Attributes>
+                        </Class>
+                    </Classes>
+                    <Interfaces>
+                        <Interface id="1" Visibility="public">
+                            <Name>ComputerInterface</Name>
+                            <Parent/>
+                            <visibility>public</visibility>
+                            <Methods>
+                                <method id="1" visibility="public">
+                                    <Name>computerFunction</Name>
+                                    <Type>int</Type>
+                                    <Parameters>
+                                        <Parameter id="3">
+                                            <Name>nextval</Name>
+                                            <Type>String</Type>
+                                        </Parameter>
+                                    </Parameters>
+                                </method>
+                            </Methods>
+                        </Interface>
+                    </Interfaces>
+                </Package>
+            </Packages>
+        </Package>
+        <Package id="3">
+            <Name>otherpackage</Name>
+            <Interfaces>
+                <Interface id="1" Visibility="public">
+                    <Name>NewInterface</Name>
+                    <Parent/>
+                    <visibility>public</visibility>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>newFunction</Name>
+                            <Type>int</Type>
+                            <Parameters>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                </Interface>
+            </Interfaces>
+        </Package>
+    </Packages>
+    <links>
+        <Link id="1102" AssociationType="Agregation">
+            <Source>2-eerr</Source>
+            <Cible>1-eerr</Cible>
+            <!--<MultiplicitySource>mme</MultiplicitySource>
+            <MultiplicityCible>mult</MultiplicityCible>-->
+        </Link>
+        <Link id="1152" AssociationType="Composition">
+            <Source>2-eerr</Source>
+            <Cible>1-eerr</Cible>
+            <!--<MultiplicitySource>mme</MultiplicitySource>
+            <MultiplicityCible>mult</MultiplicityCible>-->
+        </Link>
+        <Link id="1202" AssociationType="Composition">
+            <Source>2-packaaage</Source>
+            <Cible>1-eerr</Cible>
+            <!--<MultiplicitySource>mme</MultiplicitySource>
+            <MultiplicityCible>mult</MultiplicityCible>-->
+        </Link>
+    </links>
+</Module>
