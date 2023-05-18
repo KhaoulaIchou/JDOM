@@ -119,6 +119,26 @@
                         </method>
                     </Methods>
                 </Class>
+                <Class id="1" Visibility="public">
+                    <Name>Identity</Name>
+                    <visibility>public</visibility>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>addUser</Name>
+                            <Type>void</Type>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                </Class>
             </Classes>
             <Packages>
                 <Package id="4">
@@ -126,6 +146,17 @@
                     <Classes>
                         <Class id="1" Visibility="public">
                             <Name>Computer</Name>
+                            <Parent>eerr.Account</Parent>
+                            <visibility>public</visibility>
+                            <Attributes>
+                                <Attribute id="1" visibility="public">
+                                    <Name>salaire</Name>
+                                    <Type>String</Type>
+                                </Attribute>
+                            </Attributes>
+                        </Class>
+                        <Class id="2" Visibility="public">
+                            <Name>Screen</Name>
                             <Parent>eerr.Account</Parent>
                             <visibility>public</visibility>
                             <Attributes>
@@ -183,22 +214,18 @@
     </Packages>
     <links>
         <Link id="1102" AssociationType="Agregation">
-            <Source>2-eerr</Source>
-            <Cible>1-eerr</Cible>
-            <!--<MultiplicitySource>mme</MultiplicitySource>
-            <MultiplicityCible>mult</MultiplicityCible>-->
+            <Source>eerr.Classe3</Source>
+            <Cible>eerr.Classe2</Cible>
         </Link>
-        <Link id="1152" AssociationType="Composition">
-            <Source>2-eerr</Source>
-            <Cible>1-eerr</Cible>
-            <!--<MultiplicitySource>mme</MultiplicitySource>
-            <MultiplicityCible>mult</MultiplicityCible>-->
+        <Link id="1152" AssociationType="Agregation">
+            <Source>packaaage.sousPackage.Computer</Source>
+            <Cible>packaaage.sousPackage.Screen</Cible>
         </Link>
-        <Link id="1202" AssociationType="Composition">
-            <Source>2-packaaage</Source>
-            <Cible>1-eerr</Cible>
-            <!--<MultiplicitySource>mme</MultiplicitySource>
-            <MultiplicityCible>mult</MultiplicityCible>-->
+        <Link id="1202" AssociationType="Simple">
+            <Source>packaaage.User</Source>
+            <Cible>packaaage.Identity</Cible>
+            <MultiplicitySource>1</MultiplicitySource>
+            <MultiplicityCible>*</MultiplicityCible>
         </Link>
     </links>
 </Module>
