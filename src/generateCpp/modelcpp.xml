@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module id="1">
+    <Name>model project</Name>
+    <Namespaces>
+        <Namespace id="1">
+            <Name>eerr</Name>
+            <Classes>
+                <Class id="1">
+                    <Name>Account</Name>
+                    <visibility>public</visibility>
+                    <Abstract>false</Abstract>
+                    <Parents>
+                        <Parent>eerr.subNamespace.subsubNamepace.sousClasse</Parent>
+                        <Parent>namespaaaace.Classsse</Parent>
+                    </Parents>
+                    <Methods>
+                        <method id="1" visibility="public">
+                            <Name>eveer</Name>
+                            <Type>int</Type>
+                            <Virtual>false</Virtual>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="3">
+                                    <Name>nextval</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                        <method id="2" visibility="private">
+                            <Name>methoode</Name>
+                            <Type>String</Type>
+                            <Virtual>true</Virtual>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                    <Attributes>
+                        <Attribute id="1" visibility="private">
+                            <Name>salaire</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                        <Attribute id="2" visibility="public">
+                            <Name>brrr</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                        <Attribute id="3" visibility="public">
+                            <Name>br</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                    </Attributes>
+                </Class>
+                <Class id="2">
+                     <Name>Classe1</Name>
+                    <visibility>protected</visibility>
+                    <Abstract>true</Abstract>
+                    <Methods>
+                        <method id="2" visibility="protected">
+                            <Name>virtualmethod1</Name>
+                            <Type>void</Type>
+                            <Virtual>true</Virtual>
+                            <Parameters>
+                                <Parameter id="2">
+                                    <Name>returnval</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                        <method id="1" visibility="public">
+                            <Name>fuuuunction</Name>
+                            <Type>String</Type>
+                            <Virtual>false</Virtual>
+                            <Parameters>
+                                <Parameter id="5">
+                                    <Name>param1</Name>
+                                    <Type>int</Type>
+                                </Parameter>
+                                <Parameter id="6">
+                                    <Name>param1</Name>
+                                    <Type>String</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                </Class>
+                <Class id="3">
+                    <Name>Classe2</Name>
+                    <Parent/>
+                    <visibility>private</visibility>
+                    <Abstract>false</Abstract>
+                </Class>
+                <Class id="4">
+                    <Name>Classe3</Name>
+                    <Parent/>
+                    <visibility>private</visibility>
+                    <Abstract>false</Abstract>
+                </Class>
+            </Classes>
+            <Namespaces>
+                <Namespace id="2">
+                    <Name>subNamespace</Name>
+                    <Classes>
+                        <Class id="12">
+                            <Name>Classe12</Name>
+                            <Parent/>
+                            <visibility>public</visibility>
+                            <Abstract>false</Abstract>
+                        </Class>
+                        <Class id="13">
+                            <Name>Classe13</Name>
+                            <Parent/>
+                            <visibility>public</visibility>
+                            <Abstract>false</Abstract>
+                        </Class>
+                    </Classes>
+                    <Namespaces>
+                        <Namespace>
+                            <Name>subsubNamepace</Name>
+                            <Classes>
+                                <Class id="12">
+                                    <Name>sousClasse</Name>
+                                    <Parent/>
+                                    <visibility>public</visibility>
+                                    <Abstract>true</Abstract>
+                                    <Methods>
+                                        <method id="2" visibility="public">
+                                            <Name>virtualmethod2</Name>
+                                            <Type>int</Type>
+                                            <Virtual>true</Virtual>
+                                        </method>
+                                    </Methods>
+                                </Class>
+                            </Classes>
+                        </Namespace>
+                    </Namespaces>
+                </Namespace>
+            </Namespaces>
+        </Namespace>
+        <Namespace id="3">
+            <Name>namespaaaace</Name>
+            <Classes>
+                <Class id="4">
+                    <Name>Classsse</Name>
+                    <visibility>public</visibility>
+                    <Abstract>true</Abstract>
+                    <Methods>
+                        <method id="3">
+                            <Name>afficher</Name>
+                            <Type>void</Type>
+                            <Virtual>false</Virtual>
+                            <Parameters>
+                                <Parameter id="1">
+                                    <Name>nbr</Name>
+                                    <Type>double</Type>
+                                </Parameter>
+                            </Parameters>
+                        </method>
+                    </Methods>
+                    <Attributes>
+                        <Attribute id="3" visibility="protected">
+                            <Name>attribut11</Name>
+                            <Type>String</Type>
+                        </Attribute>
+                    </Attributes>
+                </Class>
+            </Classes>
+        </Namespace>
+    </Namespaces>
+    <links>
+        <Link id="1102" AssociationType="Agregation">
+            <Source>eerr.Classe3</Source>
+            <Cible>eerr.Account</Cible>
+        </Link>
+        <!--<Link id="1152" AssociationType="Composition">
+            <Source>eerr.Classe3</Source>
+            <Cible>eerr.Account</Cible>
+        </Link>-->
+        <Link id="1202" AssociationType="Simple">
+            <Source>eerr.subNamespace.Classe12</Source>
+            <Cible>eerr.subNamespace.Classe13</Cible>
+            <MultiplicitySource>1</MultiplicitySource>
+            <MultiplicityCible>*</MultiplicityCible>
+        </Link>
+    </links>
+</Module>

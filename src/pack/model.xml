@@ -215,7 +215,7 @@
     <links>
         <Link id="1102" AssociationType="Agregation">
             <Source>eerr.Classe3</Source>
-            <Cible>eerr.Classe2</Cible>
+            <Cible>eerr.Account</Cible>
         </Link>
         <Link id="1152" AssociationType="Agregation">
             <Source>packaaage.sousPackage.Computer</Source>
