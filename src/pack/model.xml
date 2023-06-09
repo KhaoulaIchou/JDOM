@@ -217,7 +217,7 @@
             <Source>eerr.Classe3</Source>
             <Cible>eerr.Account</Cible>
         </Link>
-        <Link id="1152" AssociationType="Agregation">
+        <Link id="1152" AssociationType="Composition">
             <Source>packaaage.sousPackage.Computer</Source>
             <Cible>packaaage.sousPackage.Screen</Cible>
         </Link>

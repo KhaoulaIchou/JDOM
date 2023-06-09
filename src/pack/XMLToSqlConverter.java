@@ -38,7 +38,6 @@ public class XMLToSqlConverter {
 
     private static void handlePackages(Element packagesElement, String parentPackage) throws IOException {
         List<Element> packageElements = packagesElement.getChildren("Package");
-        
 
         for (Element packageElement : packageElements) {
             String packageName = packageElement.getChildText("Name");
@@ -61,9 +60,8 @@ public class XMLToSqlConverter {
     private static void generateDDLStatements(String packageName, String className, Element classElement) throws IOException {
         fileWriter.write("-- SQL DDL statements for class: " + className + "\n");
 
-    
-
         fileWriter.write("CREATE TABLE " + className + " (\n");
+        fileWriter.write("\tid INTEGER PRIMARY KEY,\n");
         generateTableContents(classElement);
         fileWriter.write(");\n\n");
     }
@@ -95,32 +93,35 @@ public class XMLToSqlConverter {
                 return "BOOLEAN";
             case "char":
                 return "CHAR";
-            // Add more cases for additional attribute types as needed
             default:
                 return "UNKNOWN";
         }
     }
-    
+
     private static void handleLinks(Element linksElement, Element rootElement) throws IOException {
         if (linksElement != null) {
             for (Element linkElement : linksElement.getChildren("Link")) {
                 String associationType = linkElement.getAttributeValue("AssociationType");
                 String sourceLink = linkElement.getChildText("Source");
                 String targetLink = linkElement.getChildText("Cible");
+                String sourceClassName = sourceLink.substring(sourceLink.lastIndexOf(".") + 1);
+                String targetClassName = targetLink.substring(targetLink.lastIndexOf(".") + 1);
                 String sourceMultiplicity = linkElement.getChildText("MultiplicitySource");
                 String targetMultiplicity = linkElement.getChildText("MultiplicityCible");
 
                 switch (associationType) {
                     case "Aggregation":
-                        createAggregationConstraint(sourceLink, targetLink);
+                        createAggregationConstraint(sourceClassName, targetClassName);
                         break;
-                        
+
+                    case "Composition":
+                        createCompositionConstraint(sourceClassName, targetClassName);
+                        break;
+
                     case "Simple":
-                        createSimpleConstraint(sourceLink, targetLink, sourceMultiplicity, targetMultiplicity);
+                        createSimpleConstraint(sourceClassName, targetClassName, sourceMultiplicity, targetMultiplicity);
                         break;
-                    // Add more cases for other association types if needed
                     default:
-                        // Handle other cases or provide an error message
                         break;
                 }
             }
@@ -128,7 +129,6 @@ public class XMLToSqlConverter {
     }
 
     private static void createAggregationConstraint(String sourceClass, String targetClass) throws IOException {
-        // Generate SQL statement for creating an aggregation constraint (foreign key)
         String constraintName = "FK_" + sourceClass + "_" + targetClass;
         String foreignKeyStatement = "ALTER TABLE " + sourceClass + " ADD CONSTRAINT " + constraintName
                 + " FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id);";
@@ -137,47 +137,43 @@ public class XMLToSqlConverter {
         fileWriter.write(foreignKeyStatement + "\n\n");
     }
 
-    private static void createSimpleConstraint(String sourceClass, String targetClass,
-                                               String sourceMultiplicity, String targetMultiplicity) throws IOException {
-        // Generate SQL statement for creating a simple constraint (foreign key)
-    	 boolean isMultipleIntwoClass = generateMultiplicityConstraint(sourceClass,targetClass, sourceMultiplicity,targetMultiplicity);
+    private static void createCompositionConstraint(String sourceClass, String targetClass) throws IOException {
+        String constraintName = "FK_" + sourceClass + "_" + targetClass;
+        String foreignKeyStatement = "ALTER TABLE " + sourceClass + " ADD CONSTRAINT " + constraintName
+                + " FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id) ON DELETE CASCADE;";
 
-    	 if(!isMultipleIntwoClass) {
-    		    String constraintName = "FK_" + sourceClass + "_" + targetClass;
-    	        String foreignKeyStatement = "ALTER TABLE " + sourceClass + " ADD CONSTRAINT " + constraintName
-    	                + " FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id);";
-
-    	        fileWriter.write("-- Simple Constraint\n");
-    	        fileWriter.write(foreignKeyStatement + "\n\n");
-    	 }
-    
-
-        // Generate SQL statement for creating multiplicity constraints
-       
-
+        fileWriter.write("-- Composition Constraint\n");
+        fileWriter.write(foreignKeyStatement + "\n\n");
     }
 
-    private static boolean generateMultiplicityConstraint(String sourceClass ,String  targetClass, String multiplicitysource,String multiplicitytarget) throws IOException {
+    private static void createSimpleConstraint(String sourceClass, String targetClass, String sourceMultiplicity, String targetMultiplicity) throws IOException {
+        boolean isMultipleInTwoClass = generateMultiplicityConstraint(sourceClass,targetClass, sourceMultiplicity,targetMultiplicity);
 
-        
-        if(multiplicitysource == "0..*" && multiplicitytarget == "0..*") {
-        	  String associationTableName = sourceClass + "_" + targetClass;
-        	    String createTableStatement = "CREATE TABLE " + associationTableName + " ("
-        	            + sourceClass + "_id INTEGER,"
-        	            + targetClass + "_id INTEGER,"
-        	            + "PRIMARY KEY (" + sourceClass + "_id, " + targetClass + "_id),"
-        	            + "FOREIGN KEY (" + sourceClass + "_id) REFERENCES " + sourceClass + "(id),"
-        	            + "FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id));";
+        if(!isMultipleInTwoClass) {
+            String constraintName = "FK_" + sourceClass + "_" + targetClass;
+            String foreignKeyStatement = "ALTER TABLE " + sourceClass + " ADD CONSTRAINT " + constraintName
+                    + " FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id);";
 
-        	    fileWriter.write("-- Association Table\n");
-        	    fileWriter.write(createTableStatement + "\n\n");
-        	    return true;
+            fileWriter.write("-- Simple Constraint\n");
+            fileWriter.write(foreignKeyStatement + "\n\n");
         }
-		return false;
-
-   
     }
 
-    
-    
+    private static boolean generateMultiplicityConstraint(String sourceClass, String targetClass, String multiplicitySource, String multiplicityTarget) throws IOException {
+        if(multiplicitySource.equals("0..*") && multiplicityTarget.equals("0..*")) {
+            String associationTableName = sourceClass + "_" + targetClass;
+            String createTableStatement = "CREATE TABLE " + associationTableName + " ("
+                    + sourceClass + "_id INTEGER,"
+                    + targetClass + "_id INTEGER,"
+                    + "PRIMARY KEY (" + sourceClass + "_id, " + targetClass + "_id),"
+                    + "FOREIGN KEY (" + sourceClass + "_id) REFERENCES " + sourceClass + "(id),"
+                    + "FOREIGN KEY (" + targetClass + "_id) REFERENCES " + targetClass + "(id));";
+
+            fileWriter.write("-- Association Table\n");
+            fileWriter.write(createTableStatement + "\n\n");
+            return true;
+        }
+        return false;
+    }
+
 }
