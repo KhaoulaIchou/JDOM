@@ -9,6 +9,7 @@ import java.util.List;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import java.util.*;
 
 public class XMLToSqlConverter {
 
@@ -49,10 +50,60 @@ public class XMLToSqlConverter {
 
             Element classesElement = packageElement.getChild("Classes");
             if (classesElement != null) {
-                for (Element classElement : classesElement.getChildren("Class")) {
-                    String className = classElement.getChildText("Name");
-                    generateDDLStatements(packageName, className, classElement);
+                List<Element> classElements = classesElement.getChildren("Class");
+                List<Element> parentClassElements = new ArrayList<>();
+                List<Element> childClassElements = new ArrayList<>();
+
+                // Separate parent classes and child classes
+                for (Element classElement : classElements) {
+                    Element parentElement = classElement.getChild("Parent");
+                    if (parentElement == null || parentElement.getText().isEmpty()) {
+                        parentClassElements.add(classElement);
+                    } else {
+                        childClassElements.add(classElement);
+                    }
                 }
+
+                // Generate DDL statements for parent classes
+                for (Element parentClassElement : parentClassElements) {
+                    String parentClassName = parentClassElement.getChildText("Name");
+                    generateDDLStatements(packageName, parentClassName, parentClassElement);
+                }
+
+                // Generate DDL statements for child classes
+                for (Element childClassElement : childClassElements) {
+                    String childClassName = childClassElement.getChildText("Name");
+                    String parentClass = childClassElement.getChildText("Parent");
+                    String parentClassName = parentClass.substring(parentClass.lastIndexOf(".") + 1);
+                    generateInheritedDDLStatements(packageName, childClassName, parentClassName, childClassElement);
+                }
+
+                // Generate combined tables for parent classes with multiple child classes
+                if (parentClassElements.size() > 0 && childClassElements.size() > 1) {
+                    generateCombinedTables(packageName, parentClassElements, childClassElements);
+                }
+            }
+        }
+    }
+
+    private static void generateCombinedTables(String parentPackage, List<Element> parentClassElements, List<Element> childClassElements) throws IOException {
+        for (Element parentClassElement : parentClassElements) {
+            String parentClassName = parentClassElement.getChildText("Name");
+
+            for (Element childClassElement : childClassElements) {
+                String childClassName = childClassElement.getChildText("Name");
+                String tableName = parentClassName + "_" + childClassName;
+
+                fileWriter.write("-- SQL DDL statements for combined table\n");
+                fileWriter.write("CREATE TABLE " + tableName + " (\n");
+
+                // Generate contents for parent class
+                generateTableContents(parentClassElement);
+
+                // Generate contents for child class
+                generateTableContents(childClassElement);
+
+                fileWriter.write(");\n\n");
             }
         }
     }
@@ -63,6 +114,16 @@ public class XMLToSqlConverter {
         fileWriter.write("CREATE TABLE " + className + " (\n");
         fileWriter.write("\tid INTEGER PRIMARY KEY,\n");
         generateTableContents(classElement);
+        fileWriter.write(");\n\n");
+    }
+
+    private static void generateInheritedDDLStatements(String packageName, String className, String parentClassName, Element classElement) throws IOException {
+        fileWriter.write("-- SQL DDL statements for class: " + className + " inheriting from: " + parentClassName + "\n");
+
+        fileWriter.write("CREATE TABLE " + className + " (\n");
+        fileWriter.write("\tid INTEGER PRIMARY KEY,\n");
+        generateTableContents(classElement);
+        fileWriter.write("\tFOREIGN KEY (id) REFERENCES " + parentClassName + "(id)\n");
         fileWriter.write(");\n\n");
     }
 
@@ -110,7 +171,7 @@ public class XMLToSqlConverter {
                 String targetMultiplicity = linkElement.getChildText("MultiplicityCible");
 
                 switch (associationType) {
-                    case "Aggregation":
+                    case "Agregation":
                         createAggregationConstraint(sourceClassName, targetClassName);
                         break;
 
@@ -121,6 +182,7 @@ public class XMLToSqlConverter {
                     case "Simple":
                         createSimpleConstraint(sourceClassName, targetClassName, sourceMultiplicity, targetMultiplicity);
                         break;
+
                     default:
                         break;
                 }
@@ -136,6 +198,7 @@ public class XMLToSqlConverter {
         fileWriter.write("-- Aggregation Constraint\n");
         fileWriter.write(foreignKeyStatement + "\n\n");
     }
+
 
     private static void createCompositionConstraint(String sourceClass, String targetClass) throws IOException {
         String constraintName = "FK_" + sourceClass + "_" + targetClass;
@@ -175,5 +238,4 @@ public class XMLToSqlConverter {
         }
         return false;
     }
-
 }

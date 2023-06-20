@@ -47,7 +47,7 @@ public class JDOMTestt {
                     else if(classElement.getChildText("Name").equals(sourceClassName)){
                         String className = classElement.getChildText("Name");
                         System.out.println("la classe courante "+className);
-                        if(associationType.equals("Agregation")){
+                        if(associationType.equals("Agregation") || associationType.equals("Composition")){
                             String fileName = null;
                             File file = null;
                             if (classElement.getChildText("visibility").equals("public") || classElement.getChildText("visibility").equals("package")){
@@ -92,8 +92,6 @@ public class JDOMTestt {
                             }
 
 
-                        }else if(associationType.equals("Composition")) {
-                            System.out.println("Association est compo");
                         }else if(associationType.equals("Simple")){
                             System.out.println("Association est simple");
                             handleMultiplicity(sourceMultiplicity, targetMultiplicity, sourceClassName, targetClassName, packagePathh, packagePathh);
